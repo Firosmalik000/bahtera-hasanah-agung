@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Hero') }}
+            {{ __('About') }}
         </h2>
     </x-slot>
 
@@ -20,12 +20,12 @@
                     @endif
                 </div>
 
+
                 <div>
                     <table class="w-full border-collapse border border-gray-200">
                         <thead>
                             <tr class="bg-indigo-100 text-gray-800">
                                 <th class="px-4 py-2 border">No</th>
-                                <th class="px-4 py-2 border">Image</th>
                                 <th class="px-4 py-2 border">Title</th>
                                 <th class="px-4 py-2 border">Desc</th>
                                 <th class="px-4 py-2 border">Aksi</th>
@@ -35,16 +35,13 @@
                             @foreach ($data as $i => $item)
                                 <tr class="text-center">
                                     <td class="px-4 py-2 border">{{ $i + 1 }}</td>
-                                    <td class="px-4 py-2 border">
-                                        <img src="{{ asset('storage/' . $item->image) }}" alt="Image" width="60">
-                                    </td>
                                     <td class="px-4 py-2 border">{{ $item->title }}</td>
                                     <td class="px-4 py-2 border">{{ $item->desc }}</td>
                                     <td class="px-4 py-2 border">
                                         <button onclick="openModal({{ json_encode($item) }})" type="button"
-                                            id="editButton"
+                                            id="editButton" title="Edit"
                                             class="bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700">
-                                            Edit
+                                            <i class="fa fa-edit"></i>
                                         </button>
                                     </td>
                                 </tr>
@@ -62,33 +59,22 @@
     <div
         class="bg-white rounded-lg shadow-lg w-full max-w-md p-6 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 relative">
         <!-- Tombol Close -->
-        <button onclick="closeModal()" class="absolute top-2 right-2 text-gray-500 hover:text-gray-800 text-xl">
-            &times;
-        </button>
+        <div class="flex items-center justify-between border-b py-2 mb-4 relative">
+            <h2 class="text-2xl font-bold text-indigo-700">Edit Data</h2>
+
+            <button onclick="closeModal()"
+                class="   text-white hover:text-red-600 transition bg-red-600 px-3 py-2 hover:bg-red-300 rounded-md duration-200 ease-in-out text-xl">
+                <i class="fa fa-times"></i>
+            </button>
+        </div>
+
 
         <!-- Konten Modal -->
-        <h2 class="text-2xl font-semibold text-indigo-600 mb-4">Judul Modal</h2>
-        <form id="addHero" method="POST" enctype="multipart/form-data">
+
+        <form id="visi" method="POST" enctype="multipart/form-data">
             @csrf
 
             <div class="space-y-6 text-gray-800">
-                <!-- Gambar Upload -->
-                <div>
-                    <label for="image" class="block text-sm font-medium text-gray-700 mb-1">Upload Gambar</label>
-
-                    <!-- Preview Image -->
-                    <img id="previewImage" src="/storage/default.jpg" alt="Preview"
-                        class="w-32 h-32 object-cover rounded mb-2" />
-
-                    <!-- File Input -->
-                    <input type="hidden" name="old_image" id="oldImage">
-
-                    <input type="file" name="image" id="image" accept="image/*"
-                        class="block w-full text-sm text-gray-700 border border-gray-300 rounded-md
-                               file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:text-sm
-                               file:font-semibold file:bg-indigo-100 file:text-indigo-700 hover:file:bg-indigo-200">
-                </div>
-
                 <!-- Title -->
                 <div>
                     <label for="title" class="block text-sm font-medium text-gray-700 mb-1">Judul</label>
@@ -107,7 +93,7 @@
                 </div>
 
                 <!-- Tombol Submit -->
-                <div class="pt-4">
+                <div class="pt-4 flex items-center justify-end gap-x-2">
                     <button type="button" onclick="closeModal()"
                         class="bg-gray-300 px-4 py-2 rounded mr-2 hover:bg-gray-400">
                         Batal
@@ -124,32 +110,11 @@
     </div>
 </div>
 <script>
-    $('#image').on('change', function(event) {
-        const file = event.target.files[0];
-        const previewImage = $('#previewImage');
-
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                previewImage.attr('src', e.target.result);
-            };
-            reader.readAsDataURL(file);
-        }
-    });
-
     function openModal(item) {
 
         $("#myModal").show();
 
         setTimeout(() => {
-            if (item.image) {
-                const imageUrl = `/storage/${item.image}`;
-                $('#previewImage').attr('src', imageUrl);
-            } else {
-                $('#previewImage').attr('src', '');
-            }
-
-            $('#image').val('');
             $("#id").val(item.id).trigger('change');
             $("#title").val(item.title).trigger('change');
             $("#desc").val(item.desc).trigger('change');
@@ -160,27 +125,17 @@
     function closeModal() {
         $("#myModal").hide();
     }
-    $('#addHero').submit(function(e) {
+    $('#visi').submit(function(e) {
         e.preventDefault();
         const formData = new FormData(this);
 
         $.ajax({
-            url: "{{ route('admin.hero.store') }}",
+            url: "{{ route('admin.visi.store') }}",
             method: 'POST',
             data: formData,
             processData: false,
             contentType: false,
-            // beforeSend: function() {
-            //     Swal.fire({
-            //         title: 'Loading',
-            //         html: 'Memproses data',
-            //         timer: 1000,
-            //         timerProgressBar: true,
-            //         didOpen: () => {
-            //             Swal.showLoading()
-            //         }
-            //     })
-            // }
+
             success: function(response) {
                 $("#myModal").hide();
                 location.reload();

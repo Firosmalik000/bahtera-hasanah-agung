@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Hero') }}
+            {{ __('About') }}
         </h2>
     </x-slot>
 
@@ -11,13 +11,6 @@
                 <div class="flex items-center justify-between">
                     <h2 class="text-2xl font-bold text-indigo-700 mb-6">Tambah Data</h2>
 
-                    @if ($data->count() == 0)
-                        <button
-                            class="text-white hover:text-blue-600 transition bg-blue-600 px-3 py-2 hover:bg-blue-300 rounded-md duration-200 ease-in-out text-xl"
-                            onclick="openModal()">
-                            <i class="fa fa-plus"></i>
-                        </button>
-                    @endif
                 </div>
 
                 <div>
@@ -62,66 +55,76 @@
     <div
         class="bg-white rounded-lg shadow-lg w-full max-w-md p-6 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 relative">
         <!-- Tombol Close -->
-        <button onclick="closeModal()" class="absolute top-2 right-2 text-gray-500 hover:text-gray-800 text-xl">
-            &times;
-        </button>
+        <div class="flex items-center justify-between">
+            <h2 class="text-2xl font-bold text-indigo-700 mb-6">Tambah Data</h2>
 
-        <!-- Konten Modal -->
-        <h2 class="text-2xl font-semibold text-indigo-600 mb-4">Judul Modal</h2>
-        <form id="addHero" method="POST" enctype="multipart/form-data">
-            @csrf
+            @if ($data->count() == 0)
+                <button
+                    class="text-white hover:text-blue-600 transition bg-blue-600 px-3 py-2 hover:bg-blue-300 rounded-md duration-200 ease-in-out text-xl"
+                    onclick="openModal()">
+                    <i class="fa fa-plus"></i>
+                </button>
+            @endif
+        </div>
+    </div>
 
-            <div class="space-y-6 text-gray-800">
-                <!-- Gambar Upload -->
-                <div>
-                    <label for="image" class="block text-sm font-medium text-gray-700 mb-1">Upload Gambar</label>
 
-                    <!-- Preview Image -->
-                    <img id="previewImage" src="/storage/default.jpg" alt="Preview"
-                        class="w-32 h-32 object-cover rounded mb-2" />
+    <!-- Konten Modal -->
 
-                    <!-- File Input -->
-                    <input type="hidden" name="old_image" id="oldImage">
+    <form id="about" method="POST" enctype="multipart/form-data">
+        @csrf
 
-                    <input type="file" name="image" id="image" accept="image/*"
-                        class="block w-full text-sm text-gray-700 border border-gray-300 rounded-md
+        <div class="space-y-6 text-gray-800">
+            <!-- Gambar Upload -->
+            <div>
+                <label for="image" class="block text-sm font-medium text-gray-700 mb-1">Upload Gambar</label>
+
+                <!-- Preview Image -->
+                <img id="previewImage" src="/storage/default.jpg" alt="Preview"
+                    class="w-32 h-32 object-cover rounded mb-2" />
+
+                <!-- File Input -->
+                <input type="hidden" name="old_image" id="oldImage">
+
+                <input type="file" name="image" id="image" accept="image/*"
+                    class="block w-full text-sm text-gray-700 border border-gray-300 rounded-md
                                file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:text-sm
                                file:font-semibold file:bg-indigo-100 file:text-indigo-700 hover:file:bg-indigo-200">
-                </div>
-
-                <!-- Title -->
-                <div>
-                    <label for="title" class="block text-sm font-medium text-gray-700 mb-1">Judul</label>
-                    <input type="hidden" name="id" id="id">
-                    <input type="text" name="title" id="title"
-                        class="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
-                        placeholder="Masukkan judul">
-                </div>
-
-                <!-- Description -->
-                <div>
-                    <label for="desc" class="block text-sm font-medium text-gray-700 mb-1">Deskripsi</label>
-                    <input type="text" name="desc" id="desc"
-                        class="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
-                        placeholder="Masukkan deskripsi singkat">
-                </div>
-
-                <!-- Tombol Submit -->
-                <div class="pt-4">
-                    <button type="button" onclick="closeModal()"
-                        class="bg-gray-300 px-4 py-2 rounded mr-2 hover:bg-gray-400">
-                        Batal
-                    </button>
-                    <button type="submit" class="bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700">
-                        Simpan
-                    </button>
-                </div>
             </div>
-        </form>
 
-        <!-- Tombol Aksi -->
+            <!-- Title -->
+            <div>
+                <label for="title" class="block text-sm font-medium text-gray-700 mb-1">Judul</label>
+                <input type="hidden" name="id" id="id">
+                <input type="text" name="title" id="title"
+                    class="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+                    placeholder="Masukkan judul">
+            </div>
 
-    </div>
+            <!-- Description -->
+            <div>
+                <label for="desc" class="block text-sm font-medium text-gray-700 mb-1">Deskripsi</label>
+                <input type="text" name="desc" id="desc"
+                    class="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+                    placeholder="Masukkan deskripsi singkat">
+            </div>
+
+            <!-- Tombol Submit -->
+            <div class="pt-4 flex items-center justify-end gap-x-2">
+                <button type="button" onclick="closeModal()"
+                    class="bg-gray-300 px-4 py-2 rounded mr-2 hover:bg-gray-400">
+                    Batal
+                </button>
+                <button type="submit" class="bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700">
+                    Simpan
+                </button>
+            </div>
+        </div>
+    </form>
+
+    <!-- Tombol Aksi -->
+
+</div>
 </div>
 <script>
     $('#image').on('change', function(event) {
@@ -160,27 +163,17 @@
     function closeModal() {
         $("#myModal").hide();
     }
-    $('#addHero').submit(function(e) {
+    $('#about').submit(function(e) {
         e.preventDefault();
         const formData = new FormData(this);
 
         $.ajax({
-            url: "{{ route('admin.hero.store') }}",
+            url: "{{ route('admin.about.store') }}",
             method: 'POST',
             data: formData,
             processData: false,
             contentType: false,
-            // beforeSend: function() {
-            //     Swal.fire({
-            //         title: 'Loading',
-            //         html: 'Memproses data',
-            //         timer: 1000,
-            //         timerProgressBar: true,
-            //         didOpen: () => {
-            //             Swal.showLoading()
-            //         }
-            //     })
-            // }
+
             success: function(response) {
                 $("#myModal").hide();
                 location.reload();

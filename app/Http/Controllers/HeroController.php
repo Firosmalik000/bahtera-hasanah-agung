@@ -16,10 +16,8 @@ class HeroController extends Controller
 
     public function store(Request $request)
     {
-        // Cari data jika ada ID (untuk update)
         $hero = $request->id ? Hero::find($request->id) : new Hero();
 
-        // Cek apakah image di-upload
         if ($request->hasFile('image')) {
             $imagePath = $request->file('image')->store('hero', 'public');
             $hero->image = $imagePath;
@@ -32,7 +30,6 @@ class HeroController extends Controller
         return response()->json([
             'success' => true,
             'message' => 'Data berhasil disimpan',
-            'data' => $hero
         ]);
     }
 
