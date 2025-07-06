@@ -14,6 +14,10 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
         integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer" />
     <script src="https://unpkg.com/jquery@3.7.1/dist/jquery.min.js"></script>
+    {{-- sweet alert --}}
+    <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 
     {{-- ✅ Tambahkan baris ini --}}
     @vite(['resources/css/app.css', 'resources/js/app.js'])
@@ -29,8 +33,11 @@
         @include('sections.hero')
         @include('sections.about')
 
+
         {{-- Section Vision --}}
         @include('sections.visi')
+        {{-- Section misi --}}
+        @include('sections.misi')
         {{-- Section Service --}}
         @include('sections.service')
         {{-- Section whyUs --}}

@@ -5,24 +5,22 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Hero extends Model
+class Misi extends Model
 {
     use HasFactory;
 
-    protected $table = 'hero';
+    protected $table = 'misi';
 
     public $timestamps = false;
 
     protected $fillable = [
         'title',
-        'desc',
+        'data',
         'image',
     ];
-
     protected $casts = [
-        'title' => 'string',
-        'desc' => 'string',
-        'image' => 'string',
+        'data' => 'array',
+
     ];
 
 }
