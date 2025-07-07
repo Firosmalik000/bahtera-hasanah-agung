@@ -15,14 +15,15 @@ class Contact extends Model
 
     protected $fillable = [
         'title',
-        'desc',
+        'subtitle',
         'image',
+        'address',
+        'social_media',
     ];
 
     protected $casts = [
-        'title' => 'string',
-        'desc' => 'string',
-        'image' => 'string',
+        'social_media' => 'array',
+
     ];
 
 }

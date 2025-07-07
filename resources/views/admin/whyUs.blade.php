@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('About') }}
+            {{ __('Service') }}
         </h2>
     </x-slot>
 
@@ -11,6 +11,11 @@
                 <div class="flex items-center justify-between">
                     <h2 class="text-2xl font-bold text-indigo-700 mb-6">Tambah Data</h2>
 
+                    <button
+                        class="text-white hover:text-blue-600 transition bg-blue-600 px-3 py-2 hover:bg-blue-300 rounded-md duration-200 ease-in-out text-xl"
+                        onclick="openModal()">
+                        <i class="fa fa-plus"></i>
+                    </button>
                 </div>
 
                 <div>
@@ -18,26 +23,39 @@
                         <thead>
                             <tr class="bg-indigo-100 text-gray-800">
                                 <th class="px-4 py-2 border">No</th>
-                                <th class="px-4 py-2 border">Image</th>
                                 <th class="px-4 py-2 border">Title</th>
-                                <th class="px-4 py-2 border">Desc</th>
+                                <th class="px-4 py-2 border">Description</th>
+                                <th class="px-4 py-2 border">Icon</th>
+                                <th class="px-4 py-2 border">Color</th>
                                 <th class="px-4 py-2 border">Aksi</th>
+
                             </tr>
                         </thead>
                         <tbody>
                             @foreach ($data as $i => $item)
                                 <tr class="text-center">
                                     <td class="px-4 py-2 border">{{ $i + 1 }}</td>
-                                    <td class="px-4 py-2 border">
-                                        <img src="{{ asset('storage/' . $item->image) }}" alt="Image" width="60">
-                                    </td>
                                     <td class="px-4 py-2 border">{{ $item->title }}</td>
                                     <td class="px-4 py-2 border">{{ $item->desc }}</td>
+                                    <td class="px-4 py-2 border"><i class="{{ $item->icon }}"></i></td>
+                                    <td class="px-4 py-2 border text-center">
+                                        @php
+                                            $colorClass600 = 'bg-' . $item->color . '-600';
+                                            $colorClass100 = 'bg-' . $item->color . '-100';
+                                        @endphp
+
+                                        <div class="flex flex-col items-center justify-center space-y-1"
+                                            title="{{ $item->color }}">
+                                            <div class="w-4 h-4 rounded-full shadow-sm {{ $colorClass600 }}"></div>
+                                            <div class="w-4 h-4 rounded-full shadow-sm {{ $colorClass100 }}"></div>
+                                        </div>
+                                    </td>
+
                                     <td class="px-4 py-2 border">
                                         <button onclick="openModal({{ json_encode($item) }})" type="button"
-                                            id="editButton"
-                                            class="bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700">
-                                            Edit
+                                            id="editButton" title="Edit"
+                                            class="bg-yellow-600 text-white px-4 py-2 rounded hover:bg-yellow-500">
+                                            <i class="fa fa-edit"></i>
                                         </button>
                                     </td>
                                 </tr>
@@ -67,26 +85,10 @@
 
         <!-- Konten Modal -->
 
-        <form id="about" method="POST" enctype="multipart/form-data">
+        <form id="whyUs" method="POST" enctype="multipart/form-data">
             @csrf
 
             <div class="space-y-6 text-gray-800">
-                <!-- Gambar Upload -->
-                <div>
-                    <label for="image" class="block text-sm font-medium text-gray-700 mb-1">Upload Gambar</label>
-
-                    <!-- Preview Image -->
-                    <img id="previewImage" src="/storage/default.jpg" alt="Preview"
-                        class="w-32 h-32 object-cover rounded mb-2" />
-
-                    <!-- File Input -->
-                    <input type="hidden" name="old_image" id="oldImage">
-
-                    <input type="file" name="image" id="image" accept="image/*"
-                        class="block w-full text-sm text-gray-700 border border-gray-300 rounded-md
-                               file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:text-sm
-                               file:font-semibold file:bg-indigo-100 file:text-indigo-700 hover:file:bg-indigo-200">
-                </div>
 
                 <!-- Title -->
                 <div>
@@ -96,13 +98,31 @@
                         class="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
                         placeholder="Masukkan judul">
                 </div>
-
-                <!-- Description -->
                 <div>
                     <label for="desc" class="block text-sm font-medium text-gray-700 mb-1">Deskripsi</label>
                     <input type="text" name="desc" id="desc"
                         class="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
-                        placeholder="Masukkan deskripsi singkat">
+                        placeholder="Masukkan Deskripsi">
+                </div>
+
+                {{-- icon --}}
+                <div>
+                    <label for="icon" class="block text-sm font-medium text-gray-700 mb-1">Icon</label>
+                    <select name="icon" id="icon" class="icon-select w-full">
+                        @foreach ($icon as $item)
+                            <option value="{{ $item->icon }}" data-icon="{{ $item->icon }}">
+                                {{ $item->icon }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+
+                {{-- color --}}
+                <div>
+                    <label for="color" class="block text-sm font-medium text-gray-700 mb-1">Warna</label>
+                    <input type="text" name="color" id="color"
+                        class="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+                        placeholder="Masukkan Deskripsi">
                 </div>
 
                 <!-- Tombol Submit -->
@@ -123,35 +143,34 @@
     </div>
 </div>
 <script>
-    $('#image').on('change', function(event) {
-        const file = event.target.files[0];
-        const previewImage = $('#previewImage');
-
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                previewImage.attr('src', e.target.result);
-            };
-            reader.readAsDataURL(file);
-        }
+    $(document).ready(function() {
+        $('#icon').select2({
+            templateResult: formatIcon,
+            templateSelection: formatIcon
+        });
     });
+
+
+    function formatIcon(state) {
+        if (!state.id || !state.element) {
+            return state.text;
+        }
+
+        const iconClass = $(state.element).data('icon');
+        return $(`<span><i class="${iconClass} mr-2"></i> ${state.text}</span>`);
+    }
+
 
     function openModal(item) {
 
         $("#myModal").show();
 
         setTimeout(() => {
-            if (item.image) {
-                const imageUrl = `/storage/${item.image}`;
-                $('#previewImage').attr('src', imageUrl);
-            } else {
-                $('#previewImage').attr('src', '');
-            }
-
-            $('#image').val('');
-            $("#id").val(item.id).trigger('change');
             $("#title").val(item.title).trigger('change');
+            $("#id").val(item.id).trigger('change');
             $("#desc").val(item.desc).trigger('change');
+            $("#icon").val(item.icon).trigger('change');
+            $("#color").val(item.color).trigger('change');
         }, 200);
     }
 
@@ -159,12 +178,12 @@
     function closeModal() {
         $("#myModal").hide();
     }
-    $('#about').submit(function(e) {
+    $('#whyUs').submit(function(e) {
         e.preventDefault();
         const formData = new FormData(this);
 
         $.ajax({
-            url: "{{ route('admin.about.store') }}",
+            url: "{{ route('admin.whyUs.store') }}",
             method: 'POST',
             data: formData,
             processData: false,

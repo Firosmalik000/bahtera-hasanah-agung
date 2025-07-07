@@ -11,6 +11,11 @@
                 <div class="flex items-center justify-between">
                     <h2 class="text-2xl font-bold text-indigo-700 mb-6">Tambah Data</h2>
 
+                    <button
+                        class="text-white hover:text-blue-600 transition bg-blue-600 px-3 py-2 hover:bg-blue-300 rounded-md duration-200 ease-in-out text-xl"
+                        onclick="openModal()">
+                        <i class="fa fa-plus"></i>
+                    </button>
                 </div>
 
                 <div>
@@ -18,26 +23,23 @@
                         <thead>
                             <tr class="bg-indigo-100 text-gray-800">
                                 <th class="px-4 py-2 border">No</th>
-                                <th class="px-4 py-2 border">Image</th>
-                                <th class="px-4 py-2 border">Title</th>
-                                <th class="px-4 py-2 border">Desc</th>
+                                <th class="px-4 py-2 border">Icon</th>
                                 <th class="px-4 py-2 border">Aksi</th>
+
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($data as $i => $item)
+                            @foreach ($icon as $i => $item)
                                 <tr class="text-center">
                                     <td class="px-4 py-2 border">{{ $i + 1 }}</td>
                                     <td class="px-4 py-2 border">
-                                        <img src="{{ asset('storage/' . $item->image) }}" alt="Image" width="60">
+                                        <i class="{{ $item->icon }}"></i>
                                     </td>
-                                    <td class="px-4 py-2 border">{{ $item->title }}</td>
-                                    <td class="px-4 py-2 border">{{ $item->desc }}</td>
                                     <td class="px-4 py-2 border">
                                         <button onclick="openModal({{ json_encode($item) }})" type="button"
-                                            id="editButton"
-                                            class="bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700">
-                                            Edit
+                                            id="editButton" title="Edit"
+                                            class="bg-yellow-600 text-white px-4 py-2 rounded hover:bg-yellow-500">
+                                            <i class="fa fa-edit"></i>
                                         </button>
                                     </td>
                                 </tr>
@@ -67,43 +69,20 @@
 
         <!-- Konten Modal -->
 
-        <form id="about" method="POST" enctype="multipart/form-data">
+        <form id="master" method="POST" enctype="multipart/form-data">
             @csrf
 
             <div class="space-y-6 text-gray-800">
-                <!-- Gambar Upload -->
-                <div>
-                    <label for="image" class="block text-sm font-medium text-gray-700 mb-1">Upload Gambar</label>
-
-                    <!-- Preview Image -->
-                    <img id="previewImage" src="/storage/default.jpg" alt="Preview"
-                        class="w-32 h-32 object-cover rounded mb-2" />
-
-                    <!-- File Input -->
-                    <input type="hidden" name="old_image" id="oldImage">
-
-                    <input type="file" name="image" id="image" accept="image/*"
-                        class="block w-full text-sm text-gray-700 border border-gray-300 rounded-md
-                               file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:text-sm
-                               file:font-semibold file:bg-indigo-100 file:text-indigo-700 hover:file:bg-indigo-200">
-                </div>
 
                 <!-- Title -->
                 <div>
-                    <label for="title" class="block text-sm font-medium text-gray-700 mb-1">Judul</label>
+                    <label for="icon" class="block text-sm font-medium text-gray-700 mb-1">Icon</label>
                     <input type="hidden" name="id" id="id">
-                    <input type="text" name="title" id="title"
+                    <input type="text" name="icon" id="icon"
                         class="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
                         placeholder="Masukkan judul">
                 </div>
 
-                <!-- Description -->
-                <div>
-                    <label for="desc" class="block text-sm font-medium text-gray-700 mb-1">Deskripsi</label>
-                    <input type="text" name="desc" id="desc"
-                        class="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
-                        placeholder="Masukkan deskripsi singkat">
-                </div>
 
                 <!-- Tombol Submit -->
                 <div class="pt-4 flex items-center justify-end gap-x-2">
@@ -141,17 +120,7 @@
         $("#myModal").show();
 
         setTimeout(() => {
-            if (item.image) {
-                const imageUrl = `/storage/${item.image}`;
-                $('#previewImage').attr('src', imageUrl);
-            } else {
-                $('#previewImage').attr('src', '');
-            }
-
-            $('#image').val('');
-            $("#id").val(item.id).trigger('change');
-            $("#title").val(item.title).trigger('change');
-            $("#desc").val(item.desc).trigger('change');
+            $("#icon").val(item.icon).trigger('change');
         }, 200);
     }
 
@@ -159,12 +128,12 @@
     function closeModal() {
         $("#myModal").hide();
     }
-    $('#about').submit(function(e) {
+    $('#master').submit(function(e) {
         e.preventDefault();
         const formData = new FormData(this);
 
         $.ajax({
-            url: "{{ route('admin.about.store') }}",
+            url: "{{ route('admin.master.store') }}",
             method: 'POST',
             data: formData,
             processData: false,

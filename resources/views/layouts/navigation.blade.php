@@ -37,18 +37,23 @@
                     </x-nav-link>
                 </div>
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('admin.service')">
+                    <x-nav-link :href="route('admin.service')" :active="request()->routeIs('admin.service')">
                         {{ __('Service') }}
                     </x-nav-link>
                 </div>
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('admin.why')">
+                    <x-nav-link :href="route('admin.whyUs')" :active="request()->routeIs('admin.whyUs')">
                         {{ __('Why Us') }}
                     </x-nav-link>
                 </div>
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('admin.contact')">
                         {{ __('Contact') }}
+                    </x-nav-link>
+                </div>
+                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                    <x-nav-link :href="route('admin.master')" :active="request()->routeIs('admin.master')">
+                        {{ __('Master') }}
                     </x-nav-link>
                 </div>
             </div>

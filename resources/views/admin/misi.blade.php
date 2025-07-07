@@ -20,7 +20,7 @@
                                 <th class="px-4 py-2 border">No</th>
                                 <th class="px-4 py-2 border">Image</th>
                                 <th class="px-4 py-2 border">Title</th>
-                                <th class="px-4 py-2 border">Desc</th>
+                                <th class="px-4 py-2 border">Data</th>
                                 <th class="px-4 py-2 border">Aksi</th>
                             </tr>
                         </thead>

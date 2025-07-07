@@ -23,28 +23,28 @@
             id: 1,
             title: "Jasa Konstruksi Bangunan Sipil & Jalan",
             desc: "Melayani pembangunan jalan, gedung, fasilitas umum, dan proyek sipil lainnya dengan standar mutu tinggi dan ketepatan waktu pengerjaan.",
-            icon: "fa-solid fa-road",
+            icon: "fa fa-road",
             color: "bg-blue-100 text-blue-600"
         },
         {
             id: 2,
             title: "Penyediaan Tenaga Kerja Outsourcing",
             desc: "Seperti Jasa Pengamanan, Jasa Tenaga Ahli, Jasa Tenaga Kebersihan.",
-            icon: "fa-solid fa-users",
+            icon: "fa fa-users",
             color: "bg-green-100 text-green-600"
         },
         {
             id: 3,
             title: "Jasa Sewa Alat Berat",
             desc: "Menyediakan berbagai jenis alat berat seperti excavator, bulldozer, dan loader untuk mendukung kelancaran proyek konstruksi Anda.",
-            icon: "fa-solid fa-truck-monster",
+            icon: "fa fa-truck-monster",
             color: "bg-yellow-100 text-yellow-600"
         },
         {
             id: 4,
             title: "Jasa Sewa Kendaraan",
             desc: "Layanan sewa kendaraan operasional dan logistik, lengkap dengan driver profesional, armada terawat, dan fleksibel sesuai kebutuhan.",
-            icon: "fa-solid fa-van-shuttle",
+            icon: "fa fa-van-shuttle",
             color: "bg-red-100 text-red-600"
         }
     ];
